@@ -14,7 +14,7 @@
     "lib"
   ],
   "publishConfig": {
-    "registry": "https://registry.npmmirror.com",
+    "registry": "https://registry.npmjs.org",
     "access": "public"
   },
   "scripts": {
@@ -23,5 +23,9 @@
   "dependencies": {
     "@szl-cli/utils": "^1.0.7"
   },
-  "gitHead": "13fafba13a00ed782ad86314740ac587f306d021"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sun-xue-shi/zl-cli.git"
+  },
+  "gitHead": "a14ccb51e7fc8838c41a5e34783c4785a5865e8e"
 }

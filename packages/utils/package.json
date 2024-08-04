@@ -14,7 +14,7 @@
     "lib"
   ],
   "publishConfig": {
-    "registry": "https://registry.npmmirror.com",
+    "registry": "https://registry.npmjs.org",
     "access": "public"
   },
   "repository": {
@@ -27,5 +27,5 @@
   "bugs": {
     "url": "https://github.com/sun-xue-shi/zl-cli/issues"
   },
-  "gitHead": "13fafba13a00ed782ad86314740ac587f306d021"
+  "gitHead": "a14ccb51e7fc8838c41a5e34783c4785a5865e8e"
 }
