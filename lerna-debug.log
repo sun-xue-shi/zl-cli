@@ -1,0 +1,53 @@
+0 silly argv {
+0 silly argv   _: [ 'version' ],
+0 silly argv   lernaVersion: '8.1.7',
+0 silly argv   '$0': 'D:\\nvm\\nodejs\\node_modules\\lerna\\dist\\cli.js'
+0 silly argv }
+1 notice cli v8.1.7
+2 verbose packageConfigs Explicit "packages" configuration found in lerna.json. Resolving packages using the configured glob(s): ["packages/*"]
+3 verbose rootPath D:\前端项目\zl-cli-dev\zl-cli-dev
+4 info current version 1.0.0
+5 silly isAnythingCommitted
+6 verbose isAnythingCommitted 1
+7 silly getCurrentBranch
+8 verbose currentBranch master
+9 silly remoteBranchExists
+10 silly isBehindUpstream
+11 silly isBehindUpstream master is behind origin/master by 0 commit(s) and ahead by 0
+12 silly hasTags
+13 verbose hasTags false
+14 info Assuming all packages changed
+15 verbose updated @szl-cli/core
+16 verbose updated @szl-cli/utils
+17 verbose git-describe undefined => "8876ef4"
+18 silly git-describe parsed => {"refCount":"1","sha":"8876ef4","isDirty":false}
+19 info execute Skipping releases
+20 silly lifecycle No script for "preversion" in "szl-cli-dev", continuing
+21 silly lifecycle No script for "preversion" in "@szl-cli/utils", continuing
+22 verbose version @szl-cli/utils has no lockfile. Skipping lockfile update.
+23 silly lifecycle No script for "version" in "@szl-cli/utils", continuing
+24 silly lifecycle No script for "preversion" in "@szl-cli/core", continuing
+25 verbose version @szl-cli/core has no lockfile. Skipping lockfile update.
+26 silly lifecycle No script for "version" in "@szl-cli/core", continuing
+27 silly lifecycle No script for "version" in "szl-cli-dev", continuing
+28 verbose version Updating root package-lock.json
+29 silly gitAdd [
+29 silly gitAdd   'packages/utils/package.json',
+29 silly gitAdd   'packages/core/package.json',
+29 silly gitAdd   'lerna.json',
+29 silly gitAdd   'package-lock.json'
+29 silly gitAdd ]
+30 error Error: Command failed with exit code 1: git add -- packages/utils/package.json packages/core/package.json lerna.json package-lock.json
+30 error warning: in the working copy of 'lerna.json', LF will be replaced by CRLF the next time Git touches it
+30 error warning: in the working copy of 'packages/core/package.json', LF will be replaced by CRLF the next time Git touches it
+30 error warning: in the working copy of 'packages/utils/package.json', LF will be replaced by CRLF the next time Git touches it
+30 error The following paths are ignored by one of your .gitignore files:
+30 error package-lock.json
+30 error hint: Use -f if you really want to add them.
+30 error hint: Turn this message off by running
+30 error hint: "git config advice.addIgnoredFile false"
+30 error     at makeError (D:\前端项目\zl-cli-dev\zl-cli-dev\node_modules\execa\lib\error.js:59:11)
+30 error     at handlePromise (D:\前端项目\zl-cli-dev\zl-cli-dev\node_modules\execa\index.js:114:26)
+30 error     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+30 error     at async VersionCommand.updatePackageVersions (D:\前端项目\zl-cli-dev\zl-cli-dev\node_modules\lerna\dist\index.js:9883:11)
+30 error     at async Promise.all (index 0)
