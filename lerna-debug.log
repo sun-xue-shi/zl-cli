@@ -7,12 +7,12 @@
 1 notice cli v8.1.7
 2 verbose packageConfigs Explicit "packages" configuration found in lerna.json. Resolving packages using the configured glob(s): ["packages/*"]
 3 verbose rootPath D:\前端项目\zl-cli-dev\zl-cli-dev
-4 verbose session 6b31790cb6872030
+4 verbose session 2ecf0fd84ccec4af
 5 verbose user-agent lerna/8.1.7/node@v20.11.1+x64 (win32)
 6 silly argv { _: [ 'publish' ], composed: 'publish', lernaVersion: '8.1.7' }
 7 verbose packageConfigs Explicit "packages" configuration found in lerna.json. Resolving packages using the configured glob(s): ["packages/*"]
 8 verbose rootPath D:\前端项目\zl-cli-dev\zl-cli-dev
-9 info current version 1.0.11
+9 info current version 1.0.12
 10 silly isAnythingCommitted
 11 verbose isAnythingCommitted 1
 12 silly getCurrentBranch
@@ -22,8 +22,8 @@
 16 silly isBehindUpstream master is behind origin/master by 0 commit(s) and ahead by 0
 17 silly hasTags
 18 verbose hasTags true
-19 silly git-describe.sync "v1.0.11-1-g590c9f1" => {"lastTagName":"v1.0.11","lastVersion":"v1.0.11","refCount":"1","sha":"590c9f1","isDirty":false}
-20 info Looking for changed packages since v1.0.11
+19 silly git-describe.sync "v1.0.12-1-gfd1f22d" => {"lastTagName":"v1.0.12","lastVersion":"v1.0.12","refCount":"1","sha":"fd1f22d","isDirty":false}
+20 info Looking for changed packages since v1.0.12
 21 silly checking diff packages/core
 22 silly found diff in packages/core/package.json
 23 verbose filtered diff [ 'packages/core/package.json' ]
@@ -32,26 +32,26 @@
 26 verbose filtered diff [ 'packages/utils/package.json' ]
 27 verbose updated @szl-cli-dev/core
 28 verbose updated @szl-cli-dev/utils
-29 verbose git-describe undefined => "v1.0.11-1-g590c9f1"
-30 silly git-describe parsed => {"lastTagName":"v1.0.11","lastVersion":"v1.0.11","refCount":"1","sha":"590c9f1","isDirty":false}
+29 verbose git-describe undefined => "v1.0.12-1-gfd1f22d"
+30 silly git-describe parsed => {"lastTagName":"v1.0.12","lastVersion":"v1.0.12","refCount":"1","sha":"fd1f22d","isDirty":false}
 31 info execute Skipping releases
 32 silly lifecycle No script for "preversion" in "szl-cli-dev", continuing
 33 silly lifecycle No script for "preversion" in "@szl-cli-dev/core", continuing
 34 silly lifecycle No script for "preversion" in "@szl-cli-dev/utils", continuing
-35 verbose version @szl-cli-dev/core has no lockfile. Skipping lockfile update.
-36 verbose version @szl-cli-dev/utils has no lockfile. Skipping lockfile update.
-37 silly lifecycle No script for "version" in "@szl-cli-dev/core", continuing
-38 silly lifecycle No script for "version" in "@szl-cli-dev/utils", continuing
+35 verbose version @szl-cli-dev/utils has no lockfile. Skipping lockfile update.
+36 verbose version @szl-cli-dev/core has no lockfile. Skipping lockfile update.
+37 silly lifecycle No script for "version" in "@szl-cli-dev/utils", continuing
+38 silly lifecycle No script for "version" in "@szl-cli-dev/core", continuing
 39 silly lifecycle No script for "version" in "szl-cli-dev", continuing
 40 silly gitAdd [
-40 silly gitAdd   'packages/core/package.json',
 40 silly gitAdd   'packages/utils/package.json',
+40 silly gitAdd   'packages/core/package.json',
 40 silly gitAdd   'lerna.json'
 40 silly gitAdd ]
-41 silly gitCommit v1.0.12
-42 verbose git [ 'commit', '-m', 'v1.0.12' ]
-43 silly gitTag v1.0.12 git tag %s -m %s
-44 verbose git [ 'tag', 'v1.0.12', '-m', 'v1.0.12' ]
+41 silly gitCommit v1.0.13
+42 verbose git [ 'commit', '-m', 'v1.0.13' ]
+43 silly gitTag v1.0.13 git tag %s -m %s
+44 verbose git [ 'tag', 'v1.0.13', '-m', 'v1.0.13' ]
 45 silly lifecycle No script for "postversion" in "@szl-cli-dev/core", continuing
 46 silly lifecycle No script for "postversion" in "@szl-cli-dev/utils", continuing
 47 silly lifecycle No script for "postversion" in "szl-cli-dev", continuing
@@ -61,7 +61,7 @@
 51 notice Skipping all user and access validation due to third-party registry
 52 notice Make sure you're authenticated properly ¯\_(ツ)_/¯
 53 silly getCurrentSHA
-54 verbose getCurrentSHA a5fb3a9dee51179df43974a38d8786ea553ebd30
+54 verbose getCurrentSHA 9a1a46b469a9eb4c2a89a4d836fbfdc6058bd5ff
 55 silly lifecycle No script for "prepublish" in "szl-cli-dev", continuing
 56 silly lifecycle No script for "prepare" in "szl-cli-dev", continuing
 57 silly lifecycle No script for "prepublishOnly" in "szl-cli-dev", continuing
@@ -72,10 +72,10 @@
 62 silly lifecycle No script for "prepublish" in "@szl-cli-dev/utils", continuing
 63 silly lifecycle No script for "prepare" in "@szl-cli-dev/core", continuing
 64 silly lifecycle No script for "prepare" in "@szl-cli-dev/utils", continuing
-65 silly lifecycle No script for "prepublishOnly" in "@szl-cli-dev/core", continuing
-66 silly lifecycle No script for "prepublishOnly" in "@szl-cli-dev/utils", continuing
-67 silly lifecycle No script for "prepack" in "@szl-cli-dev/core", continuing
-68 silly lifecycle No script for "prepack" in "@szl-cli-dev/utils", continuing
+65 silly lifecycle No script for "prepublishOnly" in "@szl-cli-dev/utils", continuing
+66 silly lifecycle No script for "prepublishOnly" in "@szl-cli-dev/core", continuing
+67 silly lifecycle No script for "prepack" in "@szl-cli-dev/utils", continuing
+68 silly lifecycle No script for "prepack" in "@szl-cli-dev/core", continuing
 69 silly lifecycle No script for "postpack" in "@szl-cli-dev/utils", continuing
 70 verbose packed packages\utils
 71 silly lifecycle No script for "postpack" in "@szl-cli-dev/core", continuing
