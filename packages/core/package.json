@@ -25,7 +25,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sun-xue-shi/zl-cli.git"
+    "url": "https://github.com/sun-xue-shi/zl-cli.git",
+    "directory": "packages/core"
   },
   "gitHead": "fe3537474a45e40a71afe508f4b56e349b17b3a1"
 }
