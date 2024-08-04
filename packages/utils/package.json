@@ -1,5 +1,5 @@
 {
-  "name": "@szl-cli/utils",
+  "name": "@szl-cli-dev/utils",
   "version": "1.0.10",
   "description": "szl-cli utils",
   "author": "sun-xue-shi <2595531421@qq.com>",
@@ -20,5 +20,5 @@
   "scripts": {
     "test": "node ./__tests__/utils.test.js"
   },
-  "gitHead": "910cef7febe7c5cb53e9145e662eebcb9adb4fec"
+  "gitHead": "1da87dbaefff5d8a07fc4a997c5237524c911171"
 }

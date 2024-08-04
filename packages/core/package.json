@@ -1,5 +1,5 @@
 {
-  "name": "@szl-cli/core",
+  "name": "@szl-cli-dev/core",
   "version": "1.0.10",
   "description": "szl-cli core",
   "author": "sun-xue-shi <2595531421@qq.com>",
@@ -23,5 +23,5 @@
   "dependencies": {
     "@szl-cli/utils": "^1.0.10"
   },
-  "gitHead": "910cef7febe7c5cb53e9145e662eebcb9adb4fec"
+  "gitHead": "1da87dbaefff5d8a07fc4a997c5237524c911171"
 }

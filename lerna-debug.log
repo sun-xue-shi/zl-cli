@@ -1,9 +1,109 @@
-17 error Error: Command failed with exit code 1: git remote update
-17 error fatal: unable to access 'https://github.com/sun-xue-shi/zl-cli.git/': Failure when receiving data from the peer
-17 error     at makeError (D:\前端项目\zl-cli-dev\zl-cli-dev\node_modules\execa\lib\error.js:59:11)
-17 error     at module.exports.sync (D:\前端项目\zl-cli-dev\zl-cli-dev\node_modules\execa\index.js:186:17)
-17 error     at Object.execSync (D:\前端项目\zl-cli-dev\zl-cli-dev\node_modules\lerna\dist\index.js:1579:31)
-17 error     at updateRemote (D:\前端项目\zl-cli-dev\zl-cli-dev\node_modules\lerna\dist\index.js:9176:18)
-17 error     at isBehindUpstream (D:\前端项目\zl-cli-dev\zl-cli-dev\node_modules\lerna\dist\index.js:9166:3)
-17 error     at VersionCommand.initialize (D:\前端项目\zl-cli-dev\zl-cli-dev\node_modules\lerna\dist\index.js:9457:57)
-17 error     at VersionCommand.runCommand (D:\前端项目\zl-cli-dev\zl-cli-dev\node_modules\lerna\dist\index.js:3296:36)
+0 silly argv {
+0 silly argv   _: [ 'publish' ],
+0 silly argv   composed: 'publish',
+0 silly argv   lernaVersion: '8.1.7',
+0 silly argv   '$0': 'D:\\nvm\\nodejs\\node_modules\\lerna\\dist\\cli.js'
+0 silly argv }
+1 notice cli v8.1.7
+2 verbose packageConfigs Explicit "packages" configuration found in lerna.json. Resolving packages using the configured glob(s): ["packages/*"]
+3 verbose rootPath D:\前端项目\zl-cli-dev\zl-cli-dev
+4 verbose session f86b0a19ebcb592a
+5 verbose user-agent lerna/8.1.7/node@v20.11.1+x64 (win32)
+6 silly argv { _: [ 'publish' ], composed: 'publish', lernaVersion: '8.1.7' }
+7 verbose packageConfigs Explicit "packages" configuration found in lerna.json. Resolving packages using the configured glob(s): ["packages/*"]
+8 verbose rootPath D:\前端项目\zl-cli-dev\zl-cli-dev
+9 info current version 1.0.9
+10 silly isAnythingCommitted
+11 verbose isAnythingCommitted 1
+12 silly getCurrentBranch
+13 verbose currentBranch master
+14 silly remoteBranchExists
+15 silly isBehindUpstream
+16 silly isBehindUpstream master is behind origin/master by 0 commit(s) and ahead by 0
+17 silly hasTags
+18 verbose hasTags true
+19 silly git-describe.sync "v1.0.9-1-g39e1c04" => {"lastTagName":"v1.0.9","lastVersion":"v1.0.9","refCount":"1","sha":"39e1c04","isDirty":false}
+20 info Looking for changed packages since v1.0.9
+21 silly checking diff packages/core
+22 silly found diff in packages/core/package.json
+23 verbose filtered diff [ 'packages/core/package.json' ]
+24 silly checking diff packages/utils
+25 silly found diff in packages/utils/package.json
+26 verbose filtered diff [ 'packages/utils/package.json' ]
+27 verbose updated @szl-cli/core
+28 verbose updated @szl-cli/utils
+29 verbose git-describe undefined => "v1.0.9-1-g39e1c04"
+30 silly git-describe parsed => {"lastTagName":"v1.0.9","lastVersion":"v1.0.9","refCount":"1","sha":"39e1c04","isDirty":false}
+31 info execute Skipping releases
+32 silly lifecycle No script for "preversion" in "szl-cli-dev", continuing
+33 silly lifecycle No script for "preversion" in "@szl-cli/utils", continuing
+34 verbose version @szl-cli/utils has no lockfile. Skipping lockfile update.
+35 silly lifecycle No script for "version" in "@szl-cli/utils", continuing
+36 silly lifecycle No script for "preversion" in "@szl-cli/core", continuing
+37 verbose version @szl-cli/core has no lockfile. Skipping lockfile update.
+38 silly lifecycle No script for "version" in "@szl-cli/core", continuing
+39 silly lifecycle No script for "version" in "szl-cli-dev", continuing
+40 silly gitAdd [
+40 silly gitAdd   'packages/utils/package.json',
+40 silly gitAdd   'packages/core/package.json',
+40 silly gitAdd   'lerna.json'
+40 silly gitAdd ]
+41 silly gitCommit v1.0.10
+42 verbose git [ 'commit', '-m', 'v1.0.10' ]
+43 silly gitTag v1.0.10 git tag %s -m %s
+44 verbose git [ 'tag', 'v1.0.10', '-m', 'v1.0.10' ]
+45 silly lifecycle No script for "postversion" in "@szl-cli/core", continuing
+46 silly lifecycle No script for "postversion" in "@szl-cli/utils", continuing
+47 silly lifecycle No script for "postversion" in "szl-cli-dev", continuing
+48 info git Pushing tags...
+49 silly gitPush origin master
+50 info publish Publishing packages to npm...
+51 notice Skipping all user and access validation due to third-party registry
+52 notice Make sure you're authenticated properly ¯\_(ツ)_/¯
+53 silly getCurrentSHA
+54 verbose getCurrentSHA 1da87dbaefff5d8a07fc4a997c5237524c911171
+55 silly lifecycle No script for "prepublish" in "szl-cli-dev", continuing
+56 silly lifecycle No script for "prepare" in "szl-cli-dev", continuing
+57 silly lifecycle No script for "prepublishOnly" in "szl-cli-dev", continuing
+58 silly lifecycle No script for "prepack" in "szl-cli-dev", continuing
+59 verbose pack-directory packages\utils
+60 silly lifecycle No script for "prepublish" in "@szl-cli/utils", continuing
+61 silly lifecycle No script for "prepare" in "@szl-cli/utils", continuing
+62 silly lifecycle No script for "prepublishOnly" in "@szl-cli/utils", continuing
+63 silly lifecycle No script for "prepack" in "@szl-cli/utils", continuing
+64 silly lifecycle No script for "postpack" in "@szl-cli/utils", continuing
+65 verbose packed packages\utils
+66 verbose pack-directory packages\core
+67 silly lifecycle No script for "prepublish" in "@szl-cli/core", continuing
+68 silly lifecycle No script for "prepare" in "@szl-cli/core", continuing
+69 silly lifecycle No script for "prepublishOnly" in "@szl-cli/core", continuing
+70 silly lifecycle No script for "prepack" in "@szl-cli/core", continuing
+71 silly lifecycle No script for "postpack" in "@szl-cli/core", continuing
+72 verbose packed packages\core
+73 silly lifecycle No script for "postpack" in "szl-cli-dev", continuing
+74 verbose publish @szl-cli/utils
+75 silly FetchError: request to https://registry.npmjs.org/@szl-cli%2futils failed, reason: read ECONNRESET
+75 silly     at ClientRequest.<anonymous> (D:\前端项目\zl-cli-dev\zl-cli-dev\node_modules\minipass-fetch\lib\index.js:130:14)
+75 silly     at ClientRequest.emit (node:events:518:28)
+75 silly     at _destroy (node:_http_client:875:13)
+75 silly     at onSocketNT (node:_http_client:895:5)
+75 silly     at process.processTicksAndRejections (node:internal/process/task_queues:83:21)
+75 silly  FetchError: request to https://registry.npmjs.org/@szl-cli%2futils failed, reason: read ECONNRESET
+75 silly     at ClientRequest.<anonymous> (D:\前端项目\zl-cli-dev\zl-cli-dev\node_modules\minipass-fetch\lib\index.js:130:14)
+75 silly     at ClientRequest.emit (node:events:518:28)
+75 silly     at _destroy (node:_http_client:875:13)
+75 silly     at onSocketNT (node:_http_client:895:5)
+75 silly     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+75 silly   code: 'ECONNRESET',
+75 silly   errno: 'ECONNRESET',
+75 silly   syscall: 'read',
+75 silly   type: 'system'
+75 silly }
+76 warn notice Package failed to publish: @szl-cli/utils
+77 error ECONNRESET request to https://registry.npmjs.org/@szl-cli%2futils failed, reason: read ECONNRESET
+78 error errno "ECONNRESET" is not a valid exit code - exiting with code 1
+79 error FetchError: request to https://registry.npmjs.org/@szl-cli%2futils failed, reason: read ECONNRESET
+79 error     at ClientRequest.<anonymous> (D:\前端项目\zl-cli-dev\zl-cli-dev\node_modules\minipass-fetch\lib\index.js:130:14)
+79 error     at ClientRequest.emit (node:events:518:28)
+79 error     at _destroy (node:_http_client:875:13)
+79 error     at onSocketNT (node:_http_client:895:5)
