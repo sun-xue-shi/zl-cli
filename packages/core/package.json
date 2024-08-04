@@ -1,6 +1,6 @@
 {
   "name": "@szl-cli/core",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "szl-cli core",
   "author": "sun-xue-shi <2595531421@qq.com>",
   "homepage": "",
@@ -21,6 +21,6 @@
     "test": "node ./__tests__/core.test.js"
   },
   "dependencies": {
-    "@szl-cli/utils": "^1.0.2"
+    "@szl-cli/utils": "^1.0.3"
   }
 }
