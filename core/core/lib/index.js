@@ -6,6 +6,8 @@ const constant = require("./constant");
 const pkg = require("../package.json");
 const log = require("@szl-cli-dev/log");
 const semver = require("semver");
+const os = require("os");
+const pathExists = require("path-exists");
 const colors = require("colors");
 
 function core() {
@@ -13,15 +15,28 @@ function core() {
     checkVersion();
     checkNodeVersion();
     checkRoot();
+    checkUserHome();
   } catch (e) {
     log.error(e.message);
   }
 }
 
+/**
+ * 检查用户主目录
+ */
+function checkUserHome() {
+  const userHome = os.homedir();
+  if (!userHome || !pathExists(userHome)) {
+    throw new Error(colors.red("当前登录用户主目录不存在！"));
+  }
+}
+
+/**
+ * root降级处理
+ */
 function checkRoot() {
   const rootCheck = require("root-check");
   rootCheck();
-  console.log(process.geteuid);
 }
 
 /**
