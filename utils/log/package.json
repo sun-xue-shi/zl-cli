@@ -1,0 +1,32 @@
+{
+  "name": "@szl-cli-dev/log",
+  "version": "1.0.16",
+  "description": "> TODO: description",
+  "author": "sun-xue-shi <2595531421@qq.com>",
+  "homepage": "https://github.com/sun-xue-shi/zl-cli#readme",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sun-xue-shi/zl-cli.git"
+  },
+  "scripts": {
+    "test": "node ./__tests__/@szl-cli-dev/log.test.js"
+  },
+  "bugs": {
+    "url": "https://github.com/sun-xue-shi/zl-cli/issues"
+  },
+  "dependencies": {
+    "npmlog": "^7.0.1"
+  }
+}
