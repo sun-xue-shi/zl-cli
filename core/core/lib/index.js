@@ -16,9 +16,28 @@ function core() {
     checkNodeVersion();
     checkRoot();
     checkUserHome();
+    checkInputArg();
+    log.verbose("debug", "test-debug");
   } catch (e) {
     log.error(e.message);
   }
+}
+
+/**
+ * 检查入参
+ */
+function checkInputArg() {
+  const minimist = require("minimist");
+  const args = minimist(process.argv.slice(2));
+  console.log(args);
+
+  if (args.debug) {
+    process.env.LOG_LEVEL = "verbose";
+  } else {
+    process.env.LOG_LEVEL = "info";
+  }
+  log.level = process.env.LOG_LEVEL;
+  console.log(process.env.LOG_LEVEL);
 }
 
 /**
