@@ -12,9 +12,16 @@ function core() {
   try {
     checkVersion();
     checkNodeVersion();
+    checkRoot();
   } catch (e) {
     log.error(e.message);
   }
+}
+
+function checkRoot() {
+  const rootCheck = require("root-check");
+  rootCheck();
+  console.log(process.geteuid);
 }
 
 /**

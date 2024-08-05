@@ -28,6 +28,7 @@
     "colors": "^1.4.0",
     "import-local": "^3.2.0",
     "npmlog": "^7.0.1",
+    "root-check": "^1.0.0",
     "semver": "^7.6.3"
   },
   "gitHead": "5080294f0d71283bfca39805e31c0e11cb4fa59c"
