@@ -5,12 +5,13 @@ module.exports = core;
 const constant = require("./constant");
 const pkg = require("../package.json");
 const log = require("@szl-cli-dev/log");
+const { getLastNpmVersion } = require("@szl-cli-dev/get-npm-info");
 const semver = require("semver");
 const pathExists = require("path-exists");
 const colors = require("colors");
 const path = require("path");
 
-function core() {
+async function core() {
   try {
     checkVersion();
     checkNodeVersion();
@@ -18,7 +19,7 @@ function core() {
     checkUserHome();
     checkInputArg();
     checkEnv();
-    checkGlobalUpdate();
+    await checkGlobalUpdate();
     log.verbose("debug", "test-debug");
   } catch (e) {
     log.error(e.message);
@@ -26,11 +27,20 @@ function core() {
 }
 
 /**
- * 检查全局更新
+ * 检查提示全局更新
  */
-function checkGlobalUpdate() {
+async function checkGlobalUpdate() {
   const curNpmVersion = pkg.version;
   const npmName = pkg.name;
+  const lastVersion = await getLastNpmVersion(curNpmVersion, npmName);
+  if (lastVersion && semver.gt(lastVersion, curNpmVersion)) {
+    log.warn(
+      colors.yellow(
+        `should update ${npmName} version ${curNpmVersion} --> ${lastVersion}`
+      )
+    );
+    log.warn(colors.yellow(`You can run: npm i -g ${npmName}`));
+  }
 }
 
 /**
