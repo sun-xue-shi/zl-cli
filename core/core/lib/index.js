@@ -6,9 +6,9 @@ const constant = require("./constant");
 const pkg = require("../package.json");
 const log = require("@szl-cli-dev/log");
 const semver = require("semver");
-const os = require("os");
 const pathExists = require("path-exists");
 const colors = require("colors");
+const path = require("path");
 
 function core() {
   try {
@@ -17,10 +17,58 @@ function core() {
     checkRoot();
     checkUserHome();
     checkInputArg();
+    checkEnv();
+    checkGlobalUpdate();
     log.verbose("debug", "test-debug");
   } catch (e) {
     log.error(e.message);
   }
+}
+
+/**
+ * 检查全局更新
+ */
+function checkGlobalUpdate() {
+  const curNpmVersion = pkg.version;
+  const npmName = pkg.name;
+}
+
+/**
+ * 检查环境变量
+ */
+function checkEnv() {
+  const dotenv = require("dotenv");
+  const dotenvPath = path.resolve(constant.USER_HOME, ".env");
+  if (pathExists(dotenvPath)) {
+    // 把.env的环境变量放在process.env里
+    dotenv.config({
+      path: dotenvPath,
+    });
+  }
+  createEnv();
+  log.verbose("env", process.env.CLI_HOME_PATH);
+}
+
+/**
+ * 创建默认环境配置
+ */
+function createEnv() {
+  const cliConfig = {
+    cliHome: constant.USER_HOME,
+  };
+
+  if (process.env.CLI_HOME) {
+    console.log("process.env.CLI_HOME", process.env.CLI_HOME);
+
+    cliConfig["cliHome"] = path.join(constant.USER_HOME, process.env.CLI_HOME);
+  } else {
+    cliConfig["cliHome"] = path.join(
+      constant.USER_HOME,
+      constant.DEFAULT_CLI_HOME
+    );
+  }
+
+  process.env.CLI_HOME_PATH = cliConfig.cliHome;
 }
 
 /**
@@ -44,7 +92,7 @@ function checkInputArg() {
  * 检查用户主目录
  */
 function checkUserHome() {
-  const userHome = os.homedir();
+  const userHome = constant.USER_HOME;
   if (!userHome || !pathExists(userHome)) {
     throw new Error(colors.red("当前登录用户主目录不存在！"));
   }
