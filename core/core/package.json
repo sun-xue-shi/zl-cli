@@ -27,6 +27,7 @@
     "@szl-cli-dev/get-npm-info": "file:../../utils/get-npm-info",
     "@szl-cli-dev/log": "file:../../utils/log",
     "@szl-cli-dev/init": "file:../../commands/init",
+    "@szl-cli-dev/exec": "file:../exec",
     "colors": "^1.4.0",
     "commander": "^12.1.0",
     "dotenv": "^16.4.5",

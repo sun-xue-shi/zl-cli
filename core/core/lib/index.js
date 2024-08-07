@@ -6,6 +6,7 @@ const constant = require("./constant");
 const pkg = require("../package.json");
 const log = require("@szl-cli-dev/log");
 const init = require("@szl-cli-dev/init");
+const exec = require("@szl-cli-dev/exec");
 const { Command } = require("commander");
 const { getLastNpmVersion } = require("@szl-cli-dev/get-npm-info");
 const semver = require("semver");
@@ -47,7 +48,7 @@ function registerCommander() {
   program
     .command("init [projectName]")
     .option("-f, --force", "是否强制初始化项目", false)
-    .action(init);
+    .action(exec);
 
   //监听debug模式
   program.on("option:debug", () => {
