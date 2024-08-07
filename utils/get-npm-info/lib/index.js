@@ -75,4 +75,11 @@ async function getLastNpmVersion(baseVersion, npmName, registry) {
   return lastVersion;
 }
 
-module.exports = { getNpmInfo, getNpmVersions, getLastNpmVersion };
+function getLatestInfo() {}
+
+module.exports = {
+  getNpmInfo,
+  getNpmVersions,
+  getLastNpmVersion,
+  getDefaultRegistry,
+};

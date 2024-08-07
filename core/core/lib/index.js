@@ -10,7 +10,7 @@ const exec = require("@szl-cli-dev/exec");
 const { Command } = require("commander");
 const { getLastNpmVersion } = require("@szl-cli-dev/get-npm-info");
 const semver = require("semver");
-const pathExists = require("path-exists");
+const pathExists = require("path-exists").sync;
 const colors = require("colors");
 const path = require("path");
 
@@ -54,7 +54,6 @@ function registerCommander() {
   program.on("option:debug", () => {
     if (program.opts().debug) {
       process.env.LOG_LEVEL = "verbose";
-      console.log(66);
     } else {
       process.env.LOG_LEVEL = "info";
     }

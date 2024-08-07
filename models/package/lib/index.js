@@ -3,7 +3,10 @@
 const path = require("path");
 const { isObject } = require("@szl-cli-dev/utils");
 const formatPath = require("@szl-cli-dev/format-path");
+const { getDefaultRegistry } = require("@szl-cli-dev/get-npm-info");
 const pkgDir = require("pkg-dir").sync;
+const npminstall = require("npminstall");
+const pathExists = require("path-exists");
 
 class Package {
   constructor(options) {
@@ -17,28 +20,45 @@ class Package {
 
     this.pkgName = options.packageName;
     this.targetPath = options.targetPath;
+    this.storePath = options.storePath;
     this.pkgVersion = options.packageVersion;
   }
 
-  exists() {}
+  async exists() {
+    if (this.storePath) {
+    } else {
+      console.log(this.targetPath);
+
+      return await pathExists(this.targetPath);
+    }
+  }
 
   update() {}
 
   /**安装package */
-  install() {}
+  install() {
+    return npminstall({
+      root: this.targetPath,
+      pkgs: [{ name: this.pkgName, version: this.pkgVersion }],
+      // targetDir: '/home/admin/.global/lib',
+      // link bin to specific directory (for global install)
+      // binDir: '/home/admin/.global/bin',
+      registry: getDefaultRegistry(),
+      // debug: false,
+      // storeDir: root + 'node_modules',
+      // ignoreScripts: true, // ignore pre/post install scripts, default is `false`
+      // forbiddenLicenses: forbit install packages which used these licenses
+    });
+  }
 
   /**获取入口文件路径 */
   getRootFile() {
     //读取到给定路径下package.json所在的路径
     const dir = pkgDir(this.targetPath);
-    console.log("dir", dir);
     if (dir) {
       //读取到package.json
       const pkgFile = require(path.resolve(dir, "package.json"));
-      console.log("pkgFile", pkgFile.main);
-
       if (pkgFile && pkgFile.main) {
-        console.log(path.resolve(dir, pkgFile.main));
         return formatPath(path.resolve(dir, pkgFile.main));
       }
       return null;
