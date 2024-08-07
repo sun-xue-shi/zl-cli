@@ -58,9 +58,8 @@ function getConditionVersion(baseVersion, versions = []) {
 
   if (newVersions && newVersions.length > 0) {
     return newVersions[newVersions.length - 1];
-  } else {
-    return "";
   }
+  return null;
 }
 
 /**
