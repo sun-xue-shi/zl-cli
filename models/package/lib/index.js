@@ -26,20 +26,18 @@ class Package {
     this.targetPath = options.targetPath;
     this.storePath = options.storePath;
     this.pkgVersion = options.packageVersion;
-    this.cacheFilePathPerfix = this.pkgName.replace("/", "_");
+    this.cacheFilePathPerfix = this.pkgName.replace("/", "+");
   }
 
   getCacheFilePath(packageVersion) {
     return path.resolve(
       this.storePath,
-      `_${this.cacheFilePathPerfix}@${packageVersion}@${this.pkgName}`
+      `${this.cacheFilePathPerfix}@${packageVersion}`
     );
   }
 
   async prepare() {
     if (this.storePath && !pathExists(this.storePath)) {
-      console.log(5454);
-
       fse.mkdirSync(this.storePath);
     }
     if (this.pkgVersion === "latest") {
@@ -49,16 +47,12 @@ class Package {
 
   async exists() {
     if (this.storePath) {
-      // console.log("11", await pathExists(this.storePath));
-
       await this.prepare();
 
       const cacheFilePath = path.resolve(
         this.storePath,
-        `_${this.cacheFilePathPerfix}@${this.pkgVersion}@${this.pkgName}`
+        `${this.cacheFilePathPerfix}@${this.pkgVersion}`
       );
-
-      // console.log("22", await pathExists(cacheFilePath));
 
       return await pathExists(cacheFilePath);
     } else {
@@ -70,12 +64,12 @@ class Package {
     await this.prepare();
     const latestVersion = await getLatestVersion(this.pkgName);
     const latestFilePath = this.getCacheFilePath(latestVersion);
-    if (!pathExists(latestFilePath)) {
+
+    if (!(await pathExists(latestFilePath))) {
       await npminstall({
         root: this.targetPath,
         pkgs: [{ name: this.pkgName, version: latestVersion }],
         registry: getDefaultRegistry(),
-    
       });
       this.pkgVersion = latestVersion;
     }
@@ -84,17 +78,11 @@ class Package {
   /**安装package */
   async install() {
     await this.prepare();
+
     return npminstall({
       root: this.targetPath,
       pkgs: [{ name: this.pkgName, version: this.pkgVersion }],
-      // targetDir: '/home/admin/.global/lib',
-      // link bin to specific directory (for global install)
-      // binDir: '/home/admin/.global/bin',
       registry: getDefaultRegistry(),
-      // debug: false,
-      // storeDir: root + 'node_modules',
-      // ignoreScripts: true, // ignore pre/post install scripts, default is `false`
-      // forbiddenLicenses: forbit install packages which used these licenses
     });
   }
 

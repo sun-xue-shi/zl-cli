@@ -22,7 +22,7 @@ async function exec() {
 
   if (!targetPath) {
     targetPath = path.resolve(homePath, CACHE_DIR);
-    storePath = path.resolve(targetPath, "node_modules");
+    storePath = path.resolve(targetPath, "node_modules\\.store");
 
     pkg = new Package({
       targetPath,

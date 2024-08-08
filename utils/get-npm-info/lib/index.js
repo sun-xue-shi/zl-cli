@@ -84,7 +84,7 @@ async function getLastNpmVersion(baseVersion, npmName, registry) {
 async function getLatestVersion(npmName, registry) {
   const versions = await getNpmVersions(npmName, registry);
   if (versions) {
-    return versions[0];
+    return versions[versions.length - 1];
   }
 }
 

@@ -126,7 +126,7 @@ function createDefaultEnv() {
   };
 
   if (process.env.CLI_HOME) {
-    console.log("process.env.CLI_HOME", process.env.CLI_HOME);
+
 
     cliConfig["cliHome"] = path.join(constant.USER_HOME, process.env.CLI_HOME);
   } else {
@@ -135,7 +135,7 @@ function createDefaultEnv() {
       constant.DEFAULT_CLI_HOME
     );
   }
-  console.log("cliConfig.cliHome", cliConfig.cliHome);
+
 
   process.env.CLI_HOME_PATH = cliConfig.cliHome;
 }
