@@ -135,6 +135,7 @@ function createDefaultEnv() {
       constant.DEFAULT_CLI_HOME
     );
   }
+  console.log("cliConfig.cliHome", cliConfig.cliHome);
 
   process.env.CLI_HOME_PATH = cliConfig.cliHome;
 }

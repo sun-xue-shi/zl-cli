@@ -4,7 +4,7 @@ const path = require("path");
 const Package = require("@szl-cli-dev/package");
 
 const SETTINGS = {
-  init: "echarts",
+  init: "@imooc-cli/init",
 };
 
 const CACHE_DIR = "dependencies";
@@ -18,7 +18,7 @@ async function exec() {
   const cmdOptions = arguments[arguments.length - 1];
   const cmdName = cmdOptions.name();
   const packageName = SETTINGS[cmdName];
-  const packageVersion = "latest";
+  const packageVersion = "1.1.0";
 
   if (!targetPath) {
     targetPath = path.resolve(homePath, CACHE_DIR);
@@ -31,9 +31,8 @@ async function exec() {
       packageVersion,
     });
 
-    if (pkg.exists()) {
-      // pkg.update();
-      console.log(true);
+    if (await pkg.exists()) {
+      await pkg.update();
     } else {
       await pkg.install();
     }
@@ -44,8 +43,6 @@ async function exec() {
       packageVersion,
     });
   }
-
-  console.log(await pkg.exists());
 
   const rootFile = pkg.getRootFile();
 

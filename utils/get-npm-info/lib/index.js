@@ -5,7 +5,7 @@ const semver = require("semver");
 const urljoin = require("url-join");
 
 /**
- * 拼接url获取npm信息
+ * @description 拼接url获取npm信息
  */
 function getNpmInfo(npmName, registry) {
   if (!npmName) return null;
@@ -47,7 +47,7 @@ async function getNpmVersions(npmName, registry) {
 }
 
 /**
- * 获取比当前包的版本大的所有版本号
+ * @description 获取比当前包的版本大的所有版本号
  * @param {*} baseVersion
  * @param {*} versions
  */
@@ -67,6 +67,7 @@ function getConditionVersion(baseVersion, versions = []) {
  * @param {*} baseVersion
  * @param {*} npmName
  * @param {*} registry
+ * @description 得到最新的版本
  */
 async function getLastNpmVersion(baseVersion, npmName, registry) {
   const versions = await getNpmVersions(npmName, registry);
@@ -75,11 +76,22 @@ async function getLastNpmVersion(baseVersion, npmName, registry) {
   return lastVersion;
 }
 
-function getLatestInfo() {}
+/**
+ *
+ * @param {*} npmName
+ * @param {*} registry
+ */
+async function getLatestVersion(npmName, registry) {
+  const versions = await getNpmVersions(npmName, registry);
+  if (versions) {
+    return versions[0];
+  }
+}
 
 module.exports = {
   getNpmInfo,
   getNpmVersions,
   getLastNpmVersion,
   getDefaultRegistry,
+  getLatestVersion,
 };

@@ -3,10 +3,14 @@
 const path = require("path");
 const { isObject } = require("@szl-cli-dev/utils");
 const formatPath = require("@szl-cli-dev/format-path");
-const { getDefaultRegistry } = require("@szl-cli-dev/get-npm-info");
+const {
+  getDefaultRegistry,
+  getLatestVersion,
+} = require("@szl-cli-dev/get-npm-info");
 const pkgDir = require("pkg-dir").sync;
 const npminstall = require("npminstall");
 const pathExists = require("path-exists");
+const fse = require("fs-extra");
 
 class Package {
   constructor(options) {
@@ -22,21 +26,64 @@ class Package {
     this.targetPath = options.targetPath;
     this.storePath = options.storePath;
     this.pkgVersion = options.packageVersion;
+    this.cacheFilePathPerfix = this.pkgName.replace("/", "_");
+  }
+
+  getCacheFilePath(packageVersion) {
+    return path.resolve(
+      this.storePath,
+      `_${this.cacheFilePathPerfix}@${packageVersion}@${this.pkgName}`
+    );
+  }
+
+  async prepare() {
+    if (this.storePath && !pathExists(this.storePath)) {
+      console.log(5454);
+
+      fse.mkdirSync(this.storePath);
+    }
+    if (this.pkgVersion === "latest") {
+      this.pkgVersion = await getLatestVersion(this.pkgName);
+    }
   }
 
   async exists() {
     if (this.storePath) {
-    } else {
-      console.log(this.targetPath);
+      // console.log("11", await pathExists(this.storePath));
 
+      await this.prepare();
+
+      const cacheFilePath = path.resolve(
+        this.storePath,
+        `_${this.cacheFilePathPerfix}@${this.pkgVersion}@${this.pkgName}`
+      );
+
+      // console.log("22", await pathExists(cacheFilePath));
+
+      return await pathExists(cacheFilePath);
+    } else {
       return await pathExists(this.targetPath);
     }
   }
 
-  update() {}
+  async update() {
+    await this.prepare();
+    const latestVersion = await getLatestVersion(this.pkgName);
+    const latestFilePath = this.getCacheFilePath(latestVersion);
+    if (!pathExists(latestFilePath)) {
+      await npminstall({
+        root: this.targetPath,
+        pkgs: [{ name: this.pkgName, version: latestVersion }],
+        registry: getDefaultRegistry(),
+    
+      });
+      this.pkgVersion = latestVersion;
+    }
+  }
 
   /**安装package */
-  install() {
+  async install() {
+    await this.prepare();
     return npminstall({
       root: this.targetPath,
       pkgs: [{ name: this.pkgName, version: this.pkgVersion }],

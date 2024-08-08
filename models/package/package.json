@@ -29,8 +29,9 @@
   "dependencies": {
     "@szl-cli-dev/format-path": "file:../../utils/format-path",
     "@szl-cli-dev/utils": "file:../../utils/utils",
+    "fs-extra": "^11.2.0",
     "npminstall": "^7.12.0",
-    "pkg-dir": "^5.0.0",
-    "path-exists": "^4.0.0"
+    "path-exists": "^4.0.0",
+    "pkg-dir": "^5.0.0"
   }
 }
