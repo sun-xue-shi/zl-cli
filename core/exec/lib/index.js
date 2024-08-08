@@ -18,11 +18,11 @@ async function exec() {
   const cmdOptions = arguments[arguments.length - 1];
   const cmdName = cmdOptions.name();
   const packageName = SETTINGS[cmdName];
-  const packageVersion = "1.1.0";
+  const packageVersion = "latest";
 
   if (!targetPath) {
     targetPath = path.resolve(homePath, CACHE_DIR);
-    storePath = path.resolve(targetPath, "node_modules\\.store");
+    storePath = path.resolve(targetPath, "node_modules");
 
     pkg = new Package({
       targetPath,
@@ -45,10 +45,11 @@ async function exec() {
   }
 
   const rootFile = pkg.getRootFile();
+  console.log("rootFile", rootFile);
 
-  // if (rootFile) {
-  //   require(rootFile).apply(null, arguments);
-  // }
+  if (rootFile) {
+    require(rootFile).call(null, Array.from(arguments));
+  }
 }
 
 module.exports = exec;

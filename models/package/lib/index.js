@@ -32,7 +32,7 @@ class Package {
   getCacheFilePath(packageVersion) {
     return path.resolve(
       this.storePath,
-      `${this.cacheFilePathPerfix}@${packageVersion}`
+      `.store\\${this.cacheFilePathPerfix}@${packageVersion}`
     );
   }
 
@@ -51,7 +51,7 @@ class Package {
 
       const cacheFilePath = path.resolve(
         this.storePath,
-        `${this.cacheFilePathPerfix}@${this.pkgVersion}`
+        `.store\\${this.cacheFilePathPerfix}@${this.pkgVersion}`
       );
 
       return await pathExists(cacheFilePath);
@@ -88,15 +88,24 @@ class Package {
 
   /**获取入口文件路径 */
   getRootFile() {
-    //读取到给定路径下package.json所在的路径
-    const dir = pkgDir(this.targetPath);
-    if (dir) {
-      //读取到package.json
-      const pkgFile = require(path.resolve(dir, "package.json"));
-      if (pkgFile && pkgFile.main) {
-        return formatPath(path.resolve(dir, pkgFile.main));
+    function _getRootFile(filePath) {
+      //读取到给定路径下package.json所在的路径
+      const dir = pkgDir(filePath);
+
+      if (dir) {
+        //读取到package.json
+        const pkgFile = require(path.resolve(dir, "package.json"));
+
+        if (pkgFile && pkgFile.main) {
+          return formatPath(path.resolve(dir, pkgFile.main));
+        }
       }
       return null;
+    }
+    if (this.storePath) {
+      return _getRootFile(path.resolve(this.storePath, `${this.pkgName}`));
+    } else {
+      return _getRootFile(this.targetPath);
     }
   }
 }

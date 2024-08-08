@@ -5,7 +5,6 @@ module.exports = core;
 const constant = require("./constant");
 const pkg = require("../package.json");
 const log = require("@szl-cli-dev/log");
-const init = require("@szl-cli-dev/init");
 const exec = require("@szl-cli-dev/exec");
 const { Command } = require("commander");
 const { getLastNpmVersion } = require("@szl-cli-dev/get-npm-info");
@@ -25,7 +24,6 @@ async function core() {
 
 async function prepare() {
   checkVersion();
-  checkNodeVersion();
   checkRoot();
   checkUserHome();
   checkEnv();
@@ -126,8 +124,6 @@ function createDefaultEnv() {
   };
 
   if (process.env.CLI_HOME) {
-
-
     cliConfig["cliHome"] = path.join(constant.USER_HOME, process.env.CLI_HOME);
   } else {
     cliConfig["cliHome"] = path.join(
@@ -135,7 +131,6 @@ function createDefaultEnv() {
       constant.DEFAULT_CLI_HOME
     );
   }
-
 
   process.env.CLI_HOME_PATH = cliConfig.cliHome;
 }
@@ -163,15 +158,4 @@ function checkRoot() {
  */
 function checkVersion() {
   log.notice("cli", pkg.version);
-}
-
-/**
- * 检查node版本
- */
-function checkNodeVersion() {
-  const curNodeVersion = process.version;
-  const minNodeVersion = constant.MIN_NODEVERSION_LIMIT;
-  if (!semver.gte(curNodeVersion, minNodeVersion)) {
-    throw new Error(colors.red(`请安装v${minNodeVersion}版本以上的Node`));
-  }
 }
