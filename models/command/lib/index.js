@@ -1,18 +1,43 @@
 "use strict";
 
+const log = require("@szl-cli-dev/log");
 const constant = require("./constant");
 const semver = require("semver");
 const colors = require("colors");
 
 class Command {
   constructor(argv) {
+    if (!argv) {
+      throw new Error("参数不能为空!");
+    }
+    if (!Array.isArray(argv)) {
+      throw new Error("参数必须为数组");
+    }
+    if (argv.length < 1) {
+      throw new Error("参数列表为空!");
+    }
     console.log("init command");
     this.argv = argv;
     let runner = new Promise((resolve, reject) => {
-      Promise.resolve().then(() => {
-        this.checkNodeVersion();
-      });
+      Promise.resolve()
+        .then(() => {
+          this.checkNodeVersion();
+        })
+        .then(() => {
+          this.initArgs();
+        })
+        .catch((e) => {
+          log.error(colors.red(e));
+        });
     });
+  }
+
+  /**
+   * 参数初始化
+   */
+  initArgs() {
+    this.cmd = this.argv[this.argv.length - 1];
+    this.argv = this.argv.slice(0, this.argv.length - 1);
   }
 
   /**

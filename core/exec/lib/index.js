@@ -2,6 +2,7 @@
 
 const path = require("path");
 const Package = require("@szl-cli-dev/package");
+const log = require("@szl-cli-dev/log");
 
 const SETTINGS = {
   init: "@imooc-cli/init",
@@ -48,7 +49,11 @@ async function exec() {
   console.log("rootFile", rootFile);
 
   if (rootFile) {
-    require(rootFile).call(null, Array.from(arguments));
+    try {
+      require(rootFile).call(null, Array.from(arguments));
+    } catch (error) {
+      log.error(error.message);
+    }
   }
 }
 
