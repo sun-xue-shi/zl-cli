@@ -7,6 +7,8 @@ const colors = require("colors");
 
 class Command {
   constructor(argv) {
+    console.log("argv", argv);
+
     if (!argv) {
       throw new Error("参数不能为空!");
     }
@@ -16,8 +18,8 @@ class Command {
     if (argv.length < 1) {
       throw new Error("参数列表为空!");
     }
-    console.log("init command");
-    this.argv = argv;
+
+    this._argv = argv;
     let runner = new Promise((resolve, reject) => {
       Promise.resolve()
         .then(() => {
@@ -26,6 +28,8 @@ class Command {
         .then(() => {
           this.initArgs();
         })
+        .then(() => this.init())
+        .then(() => this.exec())
         .catch((e) => {
           log.error(colors.red(e));
         });
@@ -36,8 +40,7 @@ class Command {
    * 参数初始化
    */
   initArgs() {
-    this.cmd = this.argv[this.argv.length - 1];
-    this.argv = this.argv.slice(0, this.argv.length - 1);
+    this._cmd = this._argv[1];
   }
 
   /**

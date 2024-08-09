@@ -1,5 +1,6 @@
 "use strict";
 
+const childProcess = require("child_process");
 const path = require("path");
 const Package = require("@szl-cli-dev/package");
 const log = require("@szl-cli-dev/log");
@@ -46,15 +47,57 @@ async function exec() {
   }
 
   const rootFile = pkg.getRootFile();
-  console.log("rootFile", rootFile);
 
   if (rootFile) {
     try {
-      require(rootFile).call(null, Array.from(arguments));
+      const args = Array.from(arguments);
+      const cmd = args[args.length - 1];
+
+      const o = Object.create(null);
+
+      Object.keys(cmd).forEach((k) => {
+        if (
+          !k.startsWith("_") &&
+          k !== "parent" &&
+          k !== "registeredArguments" &&
+          cmd.hasOwnProperty(k)
+        ) {
+          o[k] = cmd[k];
+        }
+      });
+
+      args[args.length - 1] = o;
+
+      const code = `require('${rootFile}').call(null, ${JSON.stringify(args)})`;
+
+      const child = childProcess.spawn("node", ["-e", code], {
+        cwd: process.cwd(),
+        stdio: "inherit",
+      });
+
+      child.on("error", (e) => {
+        process.exit(1);
+      });
+
+      child.on("exit", (e) => {
+        process.exit(e);
+      });
     } catch (error) {
       log.error(error.message);
     }
   }
 }
+
+/**
+ * 兼容Windows
+ */
+// function spawn(command, args, options) {
+//   const win32 = process.platform === "win32";
+//   const cmd = win32 ? "win32" : command;
+
+//   const cmdArgs = win32 ? ["/c"].concat(command, args) : args;
+
+//   return childProcess.spawn(cmd, cmdArgs, options);
+// }
 
 module.exports = exec;
