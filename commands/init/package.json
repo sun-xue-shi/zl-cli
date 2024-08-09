@@ -27,6 +27,7 @@
     "url": "https://github.com/sun-xue-shi/zl-cli/issues"
   },
   "dependencies": {
-    "@szl-cli-dev/command": "file:../../models/command"
+    "@szl-cli-dev/command": "file:../../models/command",
+    "@szl-cli-dev/log": "file:../../utils/log"
   }
 }
