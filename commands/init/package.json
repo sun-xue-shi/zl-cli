@@ -28,6 +28,8 @@
   },
   "dependencies": {
     "@szl-cli-dev/command": "file:../../models/command",
-    "@szl-cli-dev/log": "file:../../utils/log"
+    "@szl-cli-dev/log": "file:../../utils/log",
+    "inquirer": "^10.1.8",
+    "fs-extra": "^11.2.0"
   }
 }
