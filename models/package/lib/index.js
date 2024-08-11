@@ -51,7 +51,7 @@ class Package {
 
       const cacheFilePath = path.resolve(
         this.storePath,
-        `.store\\${this.cacheFilePathPerfix}@${this.pkgVersion}`
+        `${this.cacheFilePathPerfix}`
       );
 
       return await pathExists(cacheFilePath);
@@ -65,6 +65,9 @@ class Package {
     const latestVersion = await getLatestVersion(this.pkgName);
     const latestFilePath = this.getCacheFilePath(latestVersion);
 
+    console.log("latestFilePath", latestFilePath);
+
+    console.log(await pathExists(latestFilePath));
     if (!(await pathExists(latestFilePath))) {
       await npminstall({
         root: this.targetPath,

@@ -12,6 +12,7 @@ const semver = require("semver");
 const pathExists = require("path-exists").sync;
 const colors = require("colors");
 const path = require("path");
+const os = require("os");
 
 async function core() {
   try {
@@ -105,7 +106,7 @@ async function checkGlobalUpdate() {
  */
 function checkEnv() {
   const dotenv = require("dotenv");
-  const dotenvPath = path.resolve(constant.USER_HOME, ".env");
+  const dotenvPath = path.resolve(os.homedir(), ".env");
   if (pathExists(dotenvPath)) {
     // 把.env的环境变量放在process.env里
     dotenv.config({
@@ -120,16 +121,13 @@ function checkEnv() {
  */
 function createDefaultEnv() {
   const cliConfig = {
-    cliHome: constant.USER_HOME,
+    cliHome: os.homedir(),
   };
 
   if (process.env.CLI_HOME) {
-    cliConfig["cliHome"] = path.join(constant.USER_HOME, process.env.CLI_HOME);
+    cliConfig["cliHome"] = path.join(os.homedir(), process.env.CLI_HOME);
   } else {
-    cliConfig["cliHome"] = path.join(
-      constant.USER_HOME,
-      constant.DEFAULT_CLI_HOME
-    );
+    cliConfig["cliHome"] = path.join(os.homedir(), constant.DEFAULT_CLI_HOME);
   }
 
   process.env.CLI_HOME_PATH = cliConfig.cliHome;
@@ -139,7 +137,7 @@ function createDefaultEnv() {
  * 检查用户主目录
  */
 function checkUserHome() {
-  const userHome = constant.USER_HOME;
+  const userHome = os.homedir();
   if (!userHome || !pathExists(userHome)) {
     throw new Error(colors.red("当前登录用户主目录不存在！"));
   }

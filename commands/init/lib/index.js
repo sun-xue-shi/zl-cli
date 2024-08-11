@@ -1,10 +1,16 @@
 "use strict";
 
+const path = require("path");
+const os = require("os");
 const constant = require("./constant");
+const getTemplate = require("./getTemplate");
 const Command = require("@szl-cli-dev/command");
+const Package = require("@szl-cli-dev/package");
+const { cliSpinner, sleep } = require("@szl-cli-dev/utils");
 const fs = require("fs");
 const inquirer = require("inquirer");
 const fse = require("fs-extra");
+const semver = require("semver");
 const log = require("@szl-cli-dev/log");
 
 class InitCommand extends Command {
@@ -13,15 +19,76 @@ class InitCommand extends Command {
     this.force = !!this._cmd.force;
   }
 
-  exec() {
+  async exec() {
     try {
-      this.prepare();
+      const projectInfo = await this.prepare();
+
+      if (projectInfo) {
+        this.projectInfo = projectInfo;
+        await this.downloadTemplate();
+      }
     } catch (e) {
       log.error(e.message);
     }
   }
 
+  async downloadTemplate() {
+    const { projectTemplate } = this.projectInfo;
+    const templateInfo = this.template.find(
+      (item) => item.npmName === projectTemplate
+    );
+    const userHome = os.homedir();
+
+    const targetPath = path.resolve(userHome, "szl-cli-dev", "template");
+    const storePath = path.resolve(
+      userHome,
+      "szl-cli-dev",
+      "template",
+      "node_modules"
+    );
+
+    const templateNpm = new Package({
+      packageName: templateInfo.npmName,
+      packageVersion: templateInfo.version,
+      targetPath,
+      storePath,
+    });
+
+    if (!(await templateNpm.exists())) {
+      const spinner = cliSpinner();
+      try {
+        await templateNpm.install();
+        await sleep();
+        log.success("下载成功");
+      } catch (error) {
+        throw new Error(error.message);
+      } finally {
+        spinner.stop(true);
+      }
+    } else {
+      const spinner = cliSpinner("update...");
+
+      try {
+        await templateNpm.update();
+        await sleep();
+        log.success("更新成功");
+      } catch (error) {
+        throw new Error(error.message);
+      } finally {
+        spinner.stop(true);
+      }
+    }
+  }
+
   async prepare() {
+    const template = await getTemplate();
+    console.log("template", template);
+    if (!template || template.length === 0) {
+      throw new Error("当前模版为空!");
+    } else {
+      this.template = template;
+    }
+
     const localPath = process.cwd();
 
     //判断当目录是否为空
@@ -61,7 +128,7 @@ class InitCommand extends Command {
   }
 
   async getProjectInfo() {
-    const prijectInfo = {};
+    let projectInfo = {};
     const { type } = await inquirer.default.prompt({
       type: "list",
       name: "type",
@@ -78,9 +145,9 @@ class InitCommand extends Command {
         },
       ],
     });
-    console.log(type);
+
     if (type === constant.PROJECT) {
-      const o = await inquirer.default.prompt([
+      const info = await inquirer.default.prompt([
         {
           type: "input",
           name: "projectName",
@@ -90,14 +157,32 @@ class InitCommand extends Command {
         {
           type: "input",
           name: "projectVersion",
-          default: "",
+          default: "1.0.0",
           message: "请输入项目版本",
+          validate: (version) => {
+            return !!semver.valid(version);
+          },
+        },
+        {
+          type: "list",
+          name: "projectTemplate",
+          default: "",
+          message: "请选择项目模版",
+          choices: this.template.map((item) => ({
+            name: item.name,
+            value: item.npmName,
+          })),
         },
       ]);
+
+      projectInfo = {
+        type,
+        ...info,
+      };
     } else if (type === constant.COMPONENT) {
     }
 
-    return prijectInfo;
+    return projectInfo;
   }
 
   isDirEmpty(localPath) {
