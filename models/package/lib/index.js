@@ -65,16 +65,15 @@ class Package {
     const latestVersion = await getLatestVersion(this.pkgName);
     const latestFilePath = this.getCacheFilePath(latestVersion);
 
-    console.log("latestFilePath", latestFilePath);
-
-    console.log(await pathExists(latestFilePath));
     if (!(await pathExists(latestFilePath))) {
       await npminstall({
         root: this.targetPath,
         pkgs: [{ name: this.pkgName, version: latestVersion }],
         registry: getDefaultRegistry(),
       });
+
       this.pkgVersion = latestVersion;
+      log.success("更新成功");
     }
   }
 

@@ -88,16 +88,4 @@ async function exec() {
   }
 }
 
-/**
- * 兼容Windows
- */
-// function spawn(command, args, options) {
-//   const win32 = process.platform === "win32";
-//   const cmd = win32 ? "win32" : command;
-
-//   const cmdArgs = win32 ? ["/c"].concat(command, args) : args;
-
-//   return childProcess.spawn(cmd, cmdArgs, options);
-// }
-
 module.exports = exec;
