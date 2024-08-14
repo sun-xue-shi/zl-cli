@@ -11,6 +11,7 @@ function getNpmInfo(npmName, registry) {
   if (!npmName) return null;
   const registryUrl = registry || getDefaultRegistry();
   const npmUrl = urljoin(registryUrl, npmName);
+
   return axios.get(npmUrl).then((res) => {
     if (res.status === 200) {
       return res.data;
@@ -83,6 +84,7 @@ async function getLastNpmVersion(baseVersion, npmName, registry) {
  */
 async function getLatestVersion(npmName, registry) {
   const versions = await getNpmVersions(npmName, registry);
+
   if (versions) {
     return versions[versions.length - 1];
   }

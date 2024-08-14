@@ -29,11 +29,14 @@
   "dependencies": {
     "@szl-cli-dev/command": "file:../../models/command",
     "@szl-cli-dev/log": "file:../../utils/log",
-    "@szl-cli-dev/request": "file:../../utils/request",
     "@szl-cli-dev/package": "file:../../models/package",
+    "@szl-cli-dev/request": "file:../../utils/request",
     "@szl-cli-dev/utils": "file:../../utils/utils",
-    "inquirer": "^10.1.8",
+    "ejs": "^3.1.10",
     "fs-extra": "^11.2.0",
+    "glob": "^11.0.0",
+    "inquirer": "^10.1.8",
+    "kebab-case": "^1.0.0",
     "semver": "^7.6.3"
   }
 }

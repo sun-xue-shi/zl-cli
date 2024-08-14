@@ -62,7 +62,12 @@ class Package {
 
   async update() {
     await this.prepare();
-    const latestVersion = await getLatestVersion(this.pkgName);
+
+    const latestVersion = await getLatestVersion(
+      this.pkgName,
+      "https://registry.npmjs.org/"
+    );
+
     const latestFilePath = this.getCacheFilePath(latestVersion);
 
     if (!(await pathExists(latestFilePath))) {
@@ -71,10 +76,10 @@ class Package {
         pkgs: [{ name: this.pkgName, version: latestVersion }],
         registry: getDefaultRegistry(),
       });
-
       this.pkgVersion = latestVersion;
       log.success("更新成功");
     }
+    this.pkgVersion = latestVersion;
   }
 
   /**安装package */
@@ -84,7 +89,7 @@ class Package {
     return npminstall({
       root: this.targetPath,
       pkgs: [{ name: this.pkgName, version: this.pkgVersion }],
-      registry: getDefaultRegistry(),
+      registry: getDefaultRegistry(true),
     });
   }
 

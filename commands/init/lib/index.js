@@ -2,16 +2,24 @@
 
 const path = require("path");
 const os = require("os");
-const { CREATE_TYPE, TEMPLATE_TYPE } = require("./constant");
+const {
+  CREATE_TYPE,
+  TEMPLATE_TYPE,
+  WHITE_COMMAND,
+  IGNORE_PATH,
+} = require("./constant");
 const getTemplate = require("./getTemplate");
 const Command = require("@szl-cli-dev/command");
 const Package = require("@szl-cli-dev/package");
+const log = require("@szl-cli-dev/log");
 const { cliSpinner, sleep, execAsync } = require("@szl-cli-dev/utils");
 const fs = require("fs");
 const inquirer = require("inquirer");
 const fse = require("fs-extra");
 const semver = require("semver");
-const log = require("@szl-cli-dev/log");
+const kebabCase = require("kebab-case");
+const { glob } = require("glob");
+const ejs = require("ejs");
 
 class InitCommand extends Command {
   init() {
@@ -37,7 +45,6 @@ class InitCommand extends Command {
    * 安装模板
    */
   async installTemplate() {
-    console.log(this.templateInfo);
     if (!this.templateInfo) {
       throw new Error("未选择项目模版信息!");
     }
@@ -52,6 +59,78 @@ class InitCommand extends Command {
     } else {
       throw new Error("无法识别项目模版类型!");
     }
+  }
+
+  /**
+   * 白名单命令检测
+   */
+  checkWhiteCommand(cmd) {
+    if (WHITE_COMMAND.includes(cmd)) {
+      return cmd;
+    }
+    return null;
+  }
+
+  /**
+   * 执行命令
+   * @param {*} cmd
+   * @returns 执行结果
+   */
+  async execCommand(cmd, msg) {
+    if (cmd) {
+      const cmdArr = cmd.split(" ");
+
+      const execCmd = this.checkWhiteCommand(cmdArr[0]);
+      if (!execCmd) {
+        throw new Error("命令不存在" + execCmd);
+      }
+      const args = cmdArr.slice(1);
+      const res = await execAsync(execCmd, args, {
+        stdio: "inherit",
+        cwd: process.cwd(),
+      });
+      if (res !== 0) {
+        throw new Error(msg);
+      }
+      return res;
+    }
+  }
+
+  /**
+   * ejs模版渲染
+   */
+  ejsRender() {
+    const dir = process.cwd();
+    return new Promise(async (reslove, reject) => {
+      const files = await glob("**", {
+        cwd: dir,
+        ignore: IGNORE_PATH,
+        nodir: true,
+      });
+
+      Promise.all(
+        files.map((file) => {
+          const filePath = path.join(dir, file);
+
+          return new Promise((res, rej) => {
+            ejs.renderFile(filePath, this.projectInfo, {}, (err, result) => {
+              if (err) {
+                rej(err);
+              } else {
+                fse.writeFileSync(filePath, result);
+                reslove(res);
+              }
+            });
+          });
+        })
+      )
+        .then(() => {
+          reslove();
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    });
   }
 
   /**
@@ -77,37 +156,38 @@ class InitCommand extends Command {
       log.success("安装成功！");
     }
 
-    const { installCommand, startCommand } = this.templateInfo;
-    if (installCommand) {
-      console.log("installCommand", installCommand);
-      const installCmd = installCommand.split(" ");
-      const cmd = installCmd[0];
-      const args = installCmd.slice(1);
-      const res = await execAsync(cmd, args, {
-        stdio: "inherit",
-        cwd: process.cwd(),
-      });
-      console.log(res);
-    }
+    const res = await this.ejsRender();
 
-    // if (startCommand) {
-    //   console.log("startCommand");
-    //   const startCmd = startCmd.split(" ");
-    //   const cmd = startCmd[0];
-    //   const args = startCmd.slice(1);
-    //   const res = await execAsync(cmd, args, {
-    //     stdio: "inherit",
-    //     cwd: process.cwd(),
-    //   });
-    //   console.log(res);
-    // }
+    const { installCommand, startCommand } = this.templateInfo;
+
+    await this.execCommand(installCommand, "依赖安装失败");
+
+    await this.execCommand(startCommand, "启动失败");
   }
 
   /**
    * 安装自定义模版
    */
   async installCustomTemplate() {
-    console.log("custom");
+    if (await this.templateNpm.exists()) {
+      const rootFile = this.templateNpm.getRootFile();
+      if (fs.existsSync(rootFile)) {
+        log.notice("开始执行");
+
+        const options = {
+          ...this.templateInfo,
+          cwd: process.cwd(),
+        };
+
+        const code = `require('${rootFile}')(${JSON.stringify(options)})`;
+        await execAsync("node", ["-e", code], {
+          stdio: "inherit",
+          cwd: process.cwd(),
+        });
+      } else {
+        throw new Error("自定义模版入口文件不存在");
+      }
+    }
   }
 
   /**
@@ -153,13 +233,13 @@ class InitCommand extends Command {
     } else {
       const spinner = cliSpinner("update...");
 
-      console.log("template", templateNpm);
-
       try {
         await templateNpm.update();
         await sleep();
         this.templateNpm = templateNpm;
       } catch (error) {
+        console.log("55");
+
         throw new Error(error.message);
       } finally {
         spinner.stop(true);
@@ -234,16 +314,19 @@ class InitCommand extends Command {
     });
 
     if (type === CREATE_TYPE.PROJECT) {
-      const info = await inquirer.default.prompt([
-        {
+      const projectPrompt = [];
+      if (!this.projectName) {
+        projectPrompt.push({
           type: "input",
           name: "projectName",
           default: this.projectName,
           message: "请输入项目名称",
-        },
+        });
+      }
+      const elsePrompt = [
         {
           type: "input",
-          name: "projectVersion",
+          name: "version",
           default: "1.0.0",
           message: "请输入项目版本",
           validate: (version) => {
@@ -260,13 +343,30 @@ class InitCommand extends Command {
             value: item.npmName,
           })),
         },
-      ]);
+      ];
+
+      projectPrompt.push(...elsePrompt);
+
+      const info = await inquirer.default.prompt(projectPrompt);
 
       projectInfo = {
         type,
         ...info,
       };
     } else if (type === CREATE_TYPE.COMPONENT) {
+    }
+
+    if (projectInfo.projectName) {
+      projectInfo.className = kebabCase(projectInfo.projectName).replace(
+        /^-/,
+        ""
+      );
+    } else if (this.projectName && !projectInfo.projectName) {
+      projectInfo.projectName = this.projectName;
+      projectInfo.className = kebabCase(projectInfo.projectName).replace(
+        /^-/,
+        ""
+      );
     }
 
     return projectInfo;

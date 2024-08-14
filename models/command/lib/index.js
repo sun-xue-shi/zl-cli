@@ -7,7 +7,7 @@ const colors = require("colors");
 
 class Command {
   constructor(argv) {
-    console.log("argv", argv);
+
 
     if (!argv) {
       throw new Error("参数不能为空!");
